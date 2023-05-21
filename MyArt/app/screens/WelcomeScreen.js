@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image, ImageBackground, StyleSheet, View, Text } from 'react-native';
-import AppButton from '../components/AppButton';
 
+import AppButton from '../components/AppButton';
 import colors from '../config/colors'
+import { Context } from '../components/globalContext/globalContext';
 
 export default function WelcomeScreen({ navigation }) {
+    
+    const globalContext = useContext(Context)
+    const { isLoggedIn } = globalContext
+
     return (
         <ImageBackground 
             blurRadius={5}

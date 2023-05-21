@@ -1,0 +1,27 @@
+import React, { useState, useEffect, useRef, createContext } from 'react';
+import { View, StyleSheet } from 'react-native';
+
+
+const Context = createContext()
+
+const Provider = ({ children }) => {
+
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+
+    const globalContext = {
+        isLoggedIn,
+        setIsLoggedIn
+    }
+
+    return <Context.Provider value={globalContext}>{children}</Context.Provider>
+
+}
+
+
+export { Context, Provider }; 
+
+
+
+const styles = StyleSheet.create({
+  container: {}
+});
