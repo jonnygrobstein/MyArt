@@ -21,8 +21,8 @@ export default function WelcomeScreen({ navigation }) {
                 <Text style={styles.tagline} >Art Remembered</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
-                <AppButton title="Register" color="secondary" onPress={() => navigation.navigate("Register")} />   
+                <AppButton title="Login" onPress={() => navigation.navigate("LoginScreen")} />
+                <AppButton title="Register" color="secondary" onPress={() => navigation.navigate("RegisterScreen")} />   
             </View>
         </ImageBackground>
     );

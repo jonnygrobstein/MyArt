@@ -18,8 +18,8 @@ export default function Navigator(props) {
   return (
     <Stack.Navigator initialRouteName='WelcomeScreen'>
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false}} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false}} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false}} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: true}} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: true}} />
         <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ headerShown: false}} />
         <Stack.Screen name="ArtworkScreen" component={ArtworkScreen} options={{ headerShown: false}} />
         <Stack.Screen name="ArtDetails" component={ArtDetails} options={{ headerShown: false}} />

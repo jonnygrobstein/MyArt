@@ -1,16 +1,24 @@
-import { StyleSheet, Image } from 'react-native'
-import React from 'react'
+import { Image, StyleSheet, View } from 'react-native'
+import React, { useContext } from 'react'
 import * as Yup from 'yup';
 
 import Screen from '../components/Screen'
 import { AppForm, AppFormField, SubmitButton } from '../components/forms'
+import { Context } from '../components/globalContext/globalContext';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
     password: Yup.string().required().min(8).label("Password")
 })
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+
+    const globalContext = useContext(Context)
+    const { isLoggedIn, appSettings } = globalContext
+
+    function handleLogin() {
+        console.log("Logging In")
+    }
 
     return (
         <Screen style={styles.container}>
@@ -40,7 +48,7 @@ export default function LoginScreen() {
                     secureTextEntry
                     textContentType="password"
                 />
-                <SubmitButton title="Login" />
+                <SubmitButton title="Login" onPress={() => handleLogin() } />
             </AppForm>
         </Screen>
     )
