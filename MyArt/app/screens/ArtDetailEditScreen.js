@@ -24,6 +24,33 @@ const validationSchema = Yup.object().shape({
 
 
 export default function ArtDetailEditScreen() {
+  const [artwork, setArtwork] = useState([])
+    
+
+    const retrieveArtwork = async() => {
+        await axios
+        .post(
+            `https://localhost:8000/api/user/artwork/`,
+            Form.onSubmit(values),
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': "application/json",
+          },
+        }
+        ) 
+        .then((res) => {
+            setArtwork(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    retrieveArtwork()
+  
+  
+  
   return (
     <Screen style={styles.container}>
       <Form

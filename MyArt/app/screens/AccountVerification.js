@@ -3,8 +3,12 @@ import { Image, ImageBackground, StyleSheet, View, Text } from 'react-native';
 
 import AppButton from '../components/AppButton';
 import colors from '../config/colors'
+import { Context } from '../components/globalContext/globalContext';
 
-export default function WelcomeScreen({ navigation }) {
+export default function AccountVerification({ navigation }) {
+    
+    const globalContext = useContext(Context)
+    const { isLoggedIn } = globalContext
 
     return (
         <ImageBackground 
@@ -14,11 +18,9 @@ export default function WelcomeScreen({ navigation }) {
         >
             <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require('../assets/logo.png')} />
-                <Text style={styles.tagline} >Art Remembered</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <AppButton title="Login" onPress={() => navigation.navigate("LoginScreen")} />
-                <AppButton title="Register" color="secondary" onPress={() => navigation.navigate("RegisterScreen")} />   
+                <AppButton title="Verify Account" onPress={() => navigation.navigate("AccountScreen")} />
             </View>
         </ImageBackground>
     );

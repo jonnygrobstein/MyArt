@@ -23,6 +23,32 @@ const validationSchema = Yup.object().shape({
 
 
 export default function ArtistDetailEditScreen() {
+  const [artist, setArtist] = useState([])
+    
+
+    const retrieveArtist = async() => {
+        await axios
+        .post(
+            `https://localhost:8000/api/user/artist/`,
+            formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        ) 
+        .then((res) => {
+            setArtist(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    retrieveArtist()
+  
+  
+  
   return (
     <Screen style={styles.container}>
       <Form

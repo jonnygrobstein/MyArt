@@ -1,25 +1,42 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import AppText from '../components/AppText'
+import axios from 'axios'
 
 import colors from '../config/colors'
 
-export default function ArtDetails({ title, artist, year, medium, description, location, notes, route}) {
-    const art = route.params;
+export default function ArtDetails({ id }) {
+    
+    const [artwork, setArtwork] = useState([])
+    
+
+    const retrieveArtwork = async() => {
+        await axios
+        .get(
+            `https://localhost:8000/api/user/artwork/${id}`,
+        ) 
+        .then((res) => {
+            setArtwork(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    retrieveArtwork()
 
   return (
     <View>
-      <Image style={styles.image} source={art.image} />
+      <Image style={styles.image} source={artwork.image} />
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>Title: {art.title}</AppText>
-        <AppText style={styles.artist}>Artist: {art.artist}</AppText>
-        <AppText style={styles.year}>Year created: {art.year}</AppText>
-        <AppText style={styles.location}>Location: {art.location}</AppText>
-        <AppText style={styles.medium}>Medium: {art.medium}</AppText>
-        <AppText style={styles.description}>Description: {art.description}</AppText>
-        <AppText style={styles.notes}>My Notes: {art.notes}</AppText>
+        <AppText style={styles.title}>Title: {artwork.title}</AppText>
+        <AppText style={styles.artist}>Artist: {artwork.artist}</AppText>
+        <AppText style={styles.year}>Year created: {artwork.year}</AppText>
+        <AppText style={styles.location}>Location: {artwork.location}</AppText>
+        <AppText style={styles.medium}>Medium: {artwork.medium}</AppText>
+        <AppText style={styles.description}>Description: {artwork.description}</AppText>
+        <AppText style={styles.notes}>My Notes: {artwork.notes}</AppText>
       </View>
-
     </View>
   )
 }

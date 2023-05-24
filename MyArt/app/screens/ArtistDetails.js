@@ -1,25 +1,44 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 
 import AppText from '../components/AppText'
 import colors from '../config/colors'
 
-export default function ArtistDetails({ name, nationality, livesIn, birthYear, deathYear, methods, bio, works }) {
-  return (
-    <View>
-      <Image style={styles.image} source={require("../assets/jonnyprofile.jpg")} />
-      <View style={styles.detailsContainer}>
-        <AppText style={styles.name}>Name: {name}</AppText>
-        <AppText style={styles.nationality}>Nationality: {nationality}</AppText>
-        <AppText style={styles.livesIn}>Residence: {livesIn}</AppText>
-        <AppText style={styles.birthYear}>Birth Year: {birthYear}</AppText>
-        <AppText style={styles.deathYear}>Died:{deathYear}</AppText>
-        <AppText style={styles.methods}>Art Styles: {methods}</AppText>
-        <AppText style={styles.bio}>Bio: {bio}</AppText>
-        <AppText style={styles.works}>List of works: {works}</AppText>
-      </View>
+export default function ArtistDetails({ id }) {
 
-    </View>
+    const [artist, setArtist] = useState([])
+    
+
+    const retrieveArtist = async() => {
+        await axios
+        .get(
+            `https://localhost:8000/api/user/artist/${id}`,
+        ) 
+        .then((res) => {
+            setArtist(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    retrieveArtist()
+  
+    return (
+        <View>
+        <Image style={styles.image} source={require("../assets/jonnyprofile.jpg")} />
+        <View style={styles.detailsContainer}>
+            <AppText style={styles.name}>Name: {artist.name}</AppText>
+            <AppText style={styles.nationality}>Nationality: {artist.nationality}</AppText>
+            <AppText style={styles.livesIn}>Residence: {artist.livesIn}</AppText>
+            <AppText style={styles.birthYear}>Birth Year: {artist.birthYear}</AppText>
+            <AppText style={styles.deathYear}>Died:{artist.deathYear}</AppText>
+            <AppText style={styles.methods}>Art Styles: {artist.methods}</AppText>
+            <AppText style={styles.bio}>Bio: {artist.bio}</AppText>
+            <AppText style={styles.works}>List of works: {artist.works}</AppText>
+        </View>
+
+        </View>
   )
 }
 

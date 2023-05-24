@@ -1,23 +1,21 @@
-import { Image, StyleSheet, View } from 'react-native'
-import React, { useContext } from 'react'
+import { Image, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
 import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 import Screen from '../components/Screen'
 import { AppForm, AppFormField, SubmitButton } from '../components/forms'
-import { Context } from '../components/globalContext/globalContext';
+import { useAuth } from '../context/AuthContext';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
-    password: Yup.string().required().min(8).label("Password")
+    password: Yup.string().required().min(6).label("Password")
 })
 
 export default function LoginScreen({ navigation }) {
 
-    const globalContext = useContext(Context)
-    const { isLoggedIn, appSettings } = globalContext
-
-    function handleLogin() {
-        console.log("Logging In")
+    const handleSubmit = (values) => {
+        console.log(values);
     }
 
     return (
@@ -26,8 +24,11 @@ export default function LoginScreen({ navigation }) {
                 style={styles.logo}
                 source={require("../assets/logo.png")} />
             <AppForm 
-                initialValues={{ email: '', password: '' }}
-                onSubmit={values => console.log(values)}
+                initialValues={{ 
+                    email: '', 
+                    password: '', 
+                }}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
                 <AppFormField 
@@ -38,6 +39,8 @@ export default function LoginScreen({ navigation }) {
                     name="email"
                     placeholder="Email"
                     textContentType="emailAddress"
+                    // value={email}
+                    // onChangeText={text => setEmail(text)}
                 />
                 <AppFormField 
                     autoCapitalize="none"
@@ -45,10 +48,12 @@ export default function LoginScreen({ navigation }) {
                     icon="lock"
                     name="password"
                     placeholder="Password"
-                    secureTextEntry
+                    secureTextEntry={true}
                     textContentType="password"
+                    // value={password}
+                    // onChangeText={text => setPassword(text)}
                 />
-                <SubmitButton title="Login" onPress={() => handleLogin() } />
+                <SubmitButton title="Login" />
             </AppForm>
         </Screen>
     )
@@ -64,5 +69,5 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 50,
         marginBottom: 20,
-    }
+    },
 })

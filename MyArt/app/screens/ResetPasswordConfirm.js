@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import { Image, ImageBackground, StyleSheet, View, Text } from 'react-native';
 
 import AppButton from '../components/AppButton';
+import { AppForm, AppFormField } from '../components/forms';
 import colors from '../config/colors'
+import { Context } from '../components/globalContext/globalContext';
 
-export default function WelcomeScreen({ navigation }) {
+export default function AccountVerification({ navigation }) {
+    
+    const globalContext = useContext(Context)
+    const { isLoggedIn } = globalContext
 
     return (
         <ImageBackground 
@@ -14,11 +19,24 @@ export default function WelcomeScreen({ navigation }) {
         >
             <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require('../assets/logo.png')} />
-                <Text style={styles.tagline} >Art Remembered</Text>
             </View>
+            <AppForm
+                initialValues={{ email: "" }}
+                onSubmit={(values) => console.log(values)}
+                validationSchema={validationSchema}
+            >
+                <AppFormField
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    icon="email"
+                    keyboardType="email-address"
+                    name="email"
+                    placeholder="Email"
+                    textContentType="emailAddress"
+                />
+            </AppForm>
             <View style={styles.buttonsContainer}>
-                <AppButton title="Login" onPress={() => navigation.navigate("LoginScreen")} />
-                <AppButton title="Register" color="secondary" onPress={() => navigation.navigate("RegisterScreen")} />   
+                <AppButton title="Reset Password" onPress={() => navigation.navigate("AccountScreen")} />
             </View>
         </ImageBackground>
     );
