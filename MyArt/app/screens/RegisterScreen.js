@@ -1,9 +1,10 @@
 import React, { useState }from "react";
-import { Image, StyleSheet } from "react-native";
+import { Button, Image, StyleSheet } from "react-native";
 import * as Yup from "yup";
+import { Formik, useFormikContext } from 'formik';
 
 import Screen from "../components/Screen";
-import { AppForm, AppFormField, SubmitButton } from "../components/forms";
+import { AppFormField } from "../components/forms";
 import { useAuth } from '../context/AuthContext';
 
 
@@ -17,18 +18,22 @@ const validationSchema = Yup.object().shape({
     .label("Confirm Password"),
 });
 
+
+
 export default function RegisterScreen() {
   
+  const { handleSubmit } = useFormikContext
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const { onRegister } = useAuth();
   
   // Automatically call the login after a successful registration  
-  const register = async (values) => {
-    const { email, password, re_password } = values;
+  const register = async () => {
+    console.log(email, password, rePassword)
+    // const values = {email, password, rePassword};
     
-    if (password !== re_password) {
+    if (password !== rePassword) {
       alert("Passwords do not match");
       return;
     }
@@ -40,13 +45,13 @@ export default function RegisterScreen() {
       } 
     }
   };
-
+  
   return (
     <Screen style={styles.container}>
       <Image 
         style={styles.logo}
         source={require("../assets/logo.png")} />
-      <AppForm
+      <Formik
         initialValues={{ name: "", email: "", password: "", re_password: "" }}
         onSubmit={register}
         validationSchema={validationSchema}
@@ -87,8 +92,8 @@ export default function RegisterScreen() {
           textContentType="password"
           onChangeText={(text) => setRePassword(text)}
         />
-        <SubmitButton type="submit" title="Register" />
-      </AppForm>
+        <Button type="submit" title="Register" onPress={handleSubmit} />
+      </Formik>
     </Screen>
   );
 }

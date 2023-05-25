@@ -1,6 +1,9 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
+import Constants from 'expo-constants'
 
+import { useAuth } from '../context/AuthContext'
+import ArtworkScreen from './ArtworkScreen'
 import Screen from '../components/Screen'
 import ListItem from '../components/lists/ListItem'
 import Icon from '../components/Icon'
@@ -15,7 +18,7 @@ const menuItems = [
             name: "format-list-bulleted",
             backgroundColor: colors.primary,
         },
-        targetScreen: "Artwork"
+        targetScreen: ArtworkScreen,
     },
     {
         title: "My Messages",
@@ -23,46 +26,48 @@ const menuItems = [
             name: "email",
             backgroundColor: colors.secondary,
         },
-        targetScreen: "Messages",
+        targetScreen: AccountScreen,
     }
 ]
 
 export default function AccountScreen({ navigation }) {
-  return (
-    <Screen style={styles.screen}>
-        <View style={styles.container}>
+    const { onLogout } = useAuth();
+    return (
+        <View style={styles.screen}>
+            <View style={styles.container}>
+                <ListItem 
+                    title="Jonny Grobstein"
+                    subTitle="jonnygrobstein@gmail.com"
+                    image={require('../assets/jonnyprofile.jpg')}
+                />
+            </View>
+            <View style={styles.container}>
+                <FlatList 
+                    data={menuItems}
+                    keyExtractor={menuItem => menuItem.title}
+                    ItemSeparatorComponent={ListItemSeparator}
+                    renderItem={({ item }) => 
+                        <ListItem
+                            title={item.title}
+                            IconComponent={
+                                <Icon
+                                    name={item.icon.name}
+                                    backgroundColor={item.icon.backgroundColor}
+                                />
+                            }
+                            onPress={() => navigation.navigate(item.targetScreen)}
+                        />
+                    }
+                />            
+            </View>
             <ListItem 
-                title="Jonny Grobstein"
-                subTitle="jonnygrobstein@gmail.com"
-                image={require('../assets/jonnyprofile.jpg')}
+                title="Log Out"
+                IconComponent={
+                    <Icon name="logout" backgroundColor='#ffe66d' />
+                }
+                onPress={onLogout}
             />
         </View>
-        <View style={styles.container}>
-            <FlatList 
-                data={menuItems}
-                keyExtractor={menuItem => menuItem.title}
-                ItemSeparatorComponent={ListItemSeparator}
-                renderItem={({ item }) => 
-                    <ListItem
-                        title={item.title}
-                        IconComponent={
-                            <Icon
-                                name={item.icon.name}
-                                backgroundColor={item.icon.backgroundColor}
-                            />
-                        }
-                        onPress={() => navigation.navigate(item.targetScreen)}
-                    />
-                }
-            />            
-        </View>
-        <ListItem 
-            title="Log Out"
-            IconComponent={
-                <Icon name="logout" backgroundColor='#ffe66d' />
-            }
-        />
-    </Screen>
   )
 }
 
@@ -72,5 +77,7 @@ const styles = StyleSheet.create({
     },
     screen: {
         backgroundColor: colors.light,
+        paddingTop: Constants.statusBarHeight,
+        flex: 1,
     }
 })

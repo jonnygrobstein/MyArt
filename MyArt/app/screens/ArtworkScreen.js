@@ -1,5 +1,7 @@
-import { FlatList, StyleSheet } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
+import axios from 'axios'
+import Constants from 'expo-constants'
 
 
 import artworkapi from '../../apis/artworkapi'
@@ -7,73 +9,57 @@ import Card from '../components/Card'
 import colors from '../config/colors'
 import routes from '../navigation/routes'
 import Screen from '../components/Screen'
-
-// const artwork = [
-//     {
-//         id: 1,
-//         title: "Chaos Inside",
-//         artist: 'Jonny Grobstein',
-//         image: require('../assets/ChaosInside.jpg'),
-//     },
-//     {
-//         id: 2,
-//         title: "Order Amongst the Chaos",
-//         artist: 'Jonny Grobstein',
-//         image: require('../assets/OrderChaos.jpg'),
-//     },
-// ]
+import { AuthContext } from '../context/AuthContext';
 
 
 
 export default function ArtworkScreen({ navigation }) {
-    
+    const { authState } = useContext(AuthContext);
+    const token = authState?.token;
 
+    const [artwork, setArtwork] = useState([]);
 
-    const [artwork, setArtwork] = useState([])
-    
+    useEffect(() => {
+        retrieveArtwork();
+    }, []);
 
     const retrieveArtwork = async() => {
-        await axios.get(artworkapi, {
-            headers: {
-                'Authorization': `token ${access_token}`  // Need to figure this out!!!!
-            }
-        }
-        ) 
-        .then((res) => {
-            setArtwork(res.data)
-        })
-        .catch((error) => {
+        try {
+            const response = await axios.get(artworkapi, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  
+                },
+            }); 
+        
+            setArtwork(response.data)
+        } catch (error) {
             console.log(error);
-        });
-    }
-
-    retrieveArtwork()
-  
-  
-  
+        }
+    };
   
     return (
-    <Screen style={styles.screen}>
-        <FlatList 
-            data={artwork}
-            keyExtractor={artwork => artwork.id.toString()}
-            renderItem={({ item }) => 
-                <Card
-                    title={item.title}
-                    artist={item.artist}
-                    image={item.image}
-                    id={item.id}
-                    onPress={() => navigation.navigate(routes.ART_DETAILS, item)}
-                />
-            }
-        />
-    </Screen>
-  )
+        <View style={styles.screen}>
+            <FlatList 
+                data={artwork}
+                keyExtractor={(artwork) => artwork.id.toString()}
+                renderItem={({ item }) => (
+                    <Card
+                        title={item.title}
+                        artist={item.artist}
+                        image={item.image}
+                        id={item.id}
+                        onPress={() => navigation.navigate(routes.ART_DETAILS, item)}
+                    />
+                )}
+            />
+        </View> 
+    )
 }
 
 const styles = StyleSheet.create({
     screen: {
-        padding: 20,
+        paddingTop: Constants.statusBarHeight,
+        // padding: 20,
         backgroundColor: colors.light,
     }
 })
