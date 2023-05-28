@@ -13,8 +13,7 @@ export default function WelcomeScreen({ navigation }) {
             source={require('../assets/background.jpg')}
         >
             <View style={styles.logoContainer}>
-                <Image style={styles.logo} source={require('../assets/logo.png')} />
-                <Text style={styles.tagline} >Art Remembered</Text>
+                <Image style={styles.logo} source={require('../assets/logo2.png')} />
             </View>
             <View style={styles.buttonsContainer}>
                 <AppButton title="Login" onPress={() => navigation.navigate("LoginScreen")} />
@@ -35,12 +34,12 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     logo: {
-        width: 200,
-        height: 200,
+        width: 150,
+        height: 250,
     },
     logoContainer: {
         position: 'absolute',
-        top: 70,
+        top: 50,
         alignItems: 'center',
     },
     tagline: {

@@ -15,6 +15,10 @@ const Login = () => {
     const { onLogin, onRegister } = useAuth();
 
     const handleLogin = async () => {
+        console.log('handleLogin called')
+        console.log('email:', email)
+        console.log('password:', password)
+
         if (onLogin) {
           const result = await onLogin(email, password);
           if (result && result.error) {
@@ -54,8 +58,8 @@ const Login = () => {
             onChangeText={(text) => setPassword(text)}
             value={password}
         />
-        <Button onPress={handleLogin} title="Login" />
-        <Button onPress={handleRegister} title="Register" />
+        <AppButton onPress={handleLogin} title="Login" />
+        <AppButton onPress={handleRegister} title="Register" />
     </View>
   );
 }

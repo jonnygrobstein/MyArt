@@ -9,6 +9,7 @@ import ArtDetailEditScreen from './app/screens/ArtDetailEditScreen';
 import ArtDetails from './app/screens/ArtDetails';
 import ViewImageScreen from './app/screens/ViewImageScreen';
 import { AuthProvider, useAuth } from './app/context/AuthContext';
+import WelcomeScreen from './app/screens/WelcomeScreen';
 import Login from './app/screens/Login';
 import axios from 'axios';
 
@@ -60,7 +61,7 @@ export const Layout = () => {
             />
           </>
           ) : (
-            <Stack.Screen name="Login" component={Login}></Stack.Screen>
+            <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}></Stack.Screen>
           )} 
         </Stack.Navigator>
       </NavigationContainer>

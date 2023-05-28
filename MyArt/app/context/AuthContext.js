@@ -56,8 +56,13 @@ export const AuthProvider = ({ children }) => {
       };
 
     const login = async (email, password) => {
+        console.log('onLogin called');
+        console.log('email:', email);
+        console.log('password:', password);
+
         try {
             const result = await axios.post(`${API_URL}login/`, { email, password });
+            console.log('login result:', result);
 
             console.log("file: AuthContext.tsx:41 ~ login ~ result:", result);
 
@@ -72,6 +77,7 @@ export const AuthProvider = ({ children }) => {
 
             return result;
         } catch (e) {
+            console.log('login error:', e.response);
             return { error: true, msg: e.response.data.msg };
         }
     };
